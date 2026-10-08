@@ -1,247 +1,694 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Acidentes de Trânsito no Brasil</title>
+    <title>Acidentes de Trânsito | Análise de Dados</title>
 
     <style>
         * {
             box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
         }
 
         body {
-            margin: 0;
             font-family: Arial, Helvetica, sans-serif;
-            background: #f4f6f9;
-            color: #1f2937;
-            line-height: 1.5;
+            background: #eef3f8;
+            color: #17202a;
+            line-height: 1.6;
         }
 
-        .container {
-            width: 90%;
-            max-width: 1100px;
-            margin: 35px auto;
+        /* =========================
+           MENU
+        ========================= */
+
+        nav {
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            padding: 18px 7%;
+
+            background: rgba(15, 23, 42, 0.96);
+            backdrop-filter: blur(10px);
+
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.12);
         }
 
-        .card {
-            background: white;
-            border-radius: 12px;
-            padding: 28px;
-            margin-bottom: 22px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
-        }
-
-        h1 {
+        .logo {
             color: white;
-            font-size: 38px;
-            margin-bottom: 10px;
+            font-size: 20px;
+            font-weight: bold;
+            letter-spacing: 1px;
         }
 
-        h2 {
-            color: #2457d6;
-            font-size: 24px;
-            margin-top: 0;
-            margin-bottom: 18px;
+        .logo span {
+            color: #38bdf8;
         }
 
-        h3 {
-            margin-top: 0;
-            color: #1f2937;
+        nav ul {
+            display: flex;
+            gap: 28px;
+            list-style: none;
         }
 
-        p {
-            margin-bottom: 12px;
+        nav a {
+            color: #cbd5e1;
+            text-decoration: none;
+            font-size: 14px;
+            transition: 0.3s;
         }
 
-        ul {
-            padding-left: 22px;
+        nav a:hover {
+            color: #38bdf8;
         }
 
-        li {
-            margin-bottom: 5px;
-        }
+        /* =========================
+           HERO
+        ========================= */
 
-        /* CABEÇALHO */
+        .hero {
+            min-height: 650px;
 
-        .header {
-            background: linear-gradient(135deg, #123c91, #2457d6);
+            display: flex;
+            align-items: center;
+
+            padding: 80px 8%;
+
+            background:
+                radial-gradient(circle at 80% 20%, rgba(56, 189, 248, 0.18), transparent 30%),
+                radial-gradient(circle at 20% 80%, rgba(37, 99, 235, 0.15), transparent 30%),
+                #0f172a;
+
             color: white;
-            padding: 65px 8%;
-            text-align: center;
         }
 
-        .header p {
-            font-size: 18px;
-            max-width: 750px;
+        .hero-content {
+            max-width: 1200px;
+            width: 100%;
             margin: auto;
-            opacity: 0.95;
+
+            display: grid;
+            grid-template-columns: 1.2fr 0.8fr;
+            gap: 70px;
+            align-items: center;
         }
 
         .tag {
             display: inline-block;
-            background: rgba(255,255,255,0.15);
-            border: 1px solid rgba(255,255,255,0.3);
-            padding: 7px 15px;
-            border-radius: 20px;
-            margin-bottom: 15px;
-            font-size: 14px;
+
+            padding: 7px 14px;
+            margin-bottom: 22px;
+
+            border: 1px solid #38bdf8;
+            border-radius: 30px;
+
+            color: #7dd3fc;
+            font-size: 13px;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
         }
 
-        /* PERGUNTAS */
-
-        .questions li::marker {
-            color: #2457d6;
+        .hero h1 {
+            font-size: clamp(42px, 6vw, 76px);
+            line-height: 1.05;
+            margin-bottom: 25px;
         }
 
-        /* INDICADORES */
-
-        .indicators {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 15px;
+        .hero h1 span {
+            color: #38bdf8;
         }
 
-        .indicator {
-            background: #f7f9fc;
-            border-left: 4px solid #2457d6;
-            padding: 18px;
-            border-radius: 7px;
+        .hero p {
+            max-width: 650px;
+            color: #cbd5e1;
+            font-size: 18px;
         }
 
-        .indicator strong {
-            display: block;
-            font-size: 16px;
-            margin-bottom: 5px;
-        }
-
-        .indicator span {
-            font-size: 14px;
-        }
-
-        /* TECNOLOGIAS */
-
-        .technologies {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 14px;
-        }
-
-        .technology {
-            background: #f7f9fc;
-            border-left: 4px solid #2457d6;
-            padding: 13px 15px;
-            border-radius: 6px;
-            font-weight: 500;
-        }
-
-        /* ARQUIVOS */
-
-        .buttons {
+        .hero-buttons {
             display: flex;
+            gap: 15px;
+            margin-top: 35px;
             flex-wrap: wrap;
-            gap: 10px;
-            margin-top: 18px;
         }
 
         .button {
-            display: inline-block;
+            padding: 13px 22px;
+            border-radius: 8px;
+
             text-decoration: none;
-            background: #2457d6;
-            color: white;
-            padding: 11px 18px;
-            border-radius: 7px;
             font-weight: bold;
             font-size: 14px;
-            transition: 0.2s;
+
+            transition: 0.3s;
         }
 
-        .button:hover {
-            background: #123c91;
-            transform: translateY(-1px);
+        .button-primary {
+            background: #38bdf8;
+            color: #082f49;
         }
 
-        .button.dark {
-            background: #374151;
+        .button-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(56, 189, 248, 0.25);
         }
 
-        .button.dark:hover {
-            background: #111827;
+        .button-secondary {
+            border: 1px solid #475569;
+            color: white;
         }
 
-        /* DASHBOARD */
-
-        .dashboard {
-            background: linear-gradient(135deg, #eef3ff, #f8faff);
-            border-left: 5px solid #2457d6;
+        .button-secondary:hover {
+            border-color: #38bdf8;
+            color: #38bdf8;
         }
 
-        .dashboard-text {
-            max-width: 850px;
+        /* =========================
+           PAINEL DO HERO
+        ========================= */
+
+        .data-panel {
+            padding: 28px;
+
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+
+            border-radius: 18px;
+
+            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.25);
         }
 
-        /* CONCLUSÃO */
-
-        .conclusion {
-            background: #f8fafc;
+        .data-panel-title {
+            color: #94a3b8;
+            font-size: 13px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 25px;
         }
 
-        /* RODAPÉ */
+        .fake-chart {
+            height: 180px;
 
-        footer {
-            text-align: center;
-            padding: 30px 15px;
-            color: #6b7280;
+            display: flex;
+            align-items: end;
+            gap: 10px;
+
+            padding: 15px;
+
+            border-bottom: 1px solid #334155;
+        }
+
+        .bar {
+            flex: 1;
+
+            background: linear-gradient(to top, #2563eb, #38bdf8);
+
+            border-radius: 5px 5px 0 0;
+
+            min-height: 25px;
+
+            transition: 0.3s;
+        }
+
+        .bar:hover {
+            transform: scaleY(1.05);
+        }
+
+        .data-panel-footer {
+            display: flex;
+            justify-content: space-between;
+
+            margin-top: 20px;
+
+            color: #94a3b8;
+            font-size: 13px;
+        }
+
+        /* =========================
+           CONTAINER
+        ========================= */
+
+        .container {
+            max-width: 1200px;
+            margin: auto;
+            padding: 90px 25px;
+        }
+
+        .section-title {
+            margin-bottom: 45px;
+        }
+
+        .section-title small {
+            color: #0284c7;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .section-title h2 {
+            margin-top: 8px;
+            font-size: 38px;
+        }
+
+        .section-title p {
+            margin-top: 12px;
+            color: #64748b;
+            max-width: 700px;
+        }
+
+        /* =========================
+           PERGUNTAS
+        ========================= */
+
+        .questions {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 18px;
+        }
+
+        .question {
+            background: white;
+            padding: 25px;
+
+            border-left: 4px solid #38bdf8;
+            border-radius: 10px;
+
+            box-shadow: 0 8px 25px rgba(15, 23, 42, 0.06);
+
+            transition: 0.3s;
+        }
+
+        .question:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(15, 23, 42, 0.1);
+        }
+
+        .question-number {
+            color: #0284c7;
+            font-weight: bold;
+            font-size: 13px;
+        }
+
+        .question h3 {
+            margin-top: 8px;
+            font-size: 18px;
+        }
+
+        /* =========================
+           KPIs
+        ========================= */
+
+        .kpis {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
+
+        .kpi {
+            background: #0f172a;
+            color: white;
+
+            padding: 30px;
+
+            border-radius: 15px;
+
+            position: relative;
+            overflow: hidden;
+
+            min-height: 170px;
+        }
+
+        .kpi::after {
+            content: "";
+
+            position: absolute;
+
+            width: 120px;
+            height: 120px;
+
+            border-radius: 50%;
+
+            background: rgba(56, 189, 248, 0.08);
+
+            right: -30px;
+            bottom: -40px;
+        }
+
+        .kpi-label {
+            color: #94a3b8;
+            font-size: 13px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .kpi strong {
+            display: block;
+
+            margin-top: 15px;
+
+            font-size: 27px;
+            color: #7dd3fc;
+        }
+
+        /* =========================
+           TECNOLOGIAS
+        ========================= */
+
+        .technologies {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .tech {
+            padding: 12px 18px;
+
+            background: white;
+
+            border: 1px solid #dbe5ef;
+            border-radius: 8px;
+
+            font-weight: bold;
+            font-size: 14px;
+
+            transition: 0.3s;
+        }
+
+        .tech:hover {
+            border-color: #38bdf8;
+            transform: translateY(-3px);
+        }
+
+        /* =========================
+           ANÁLISES
+        ========================= */
+
+        .analysis-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
+
+        .analysis-card {
+            background: white;
+
+            padding: 30px;
+
+            border-radius: 14px;
+
+            box-shadow: 0 8px 25px rgba(15, 23, 42, 0.06);
+
+            transition: 0.3s;
+        }
+
+        .analysis-card:hover {
+            transform: translateY(-6px);
+        }
+
+        .analysis-icon {
+            width: 45px;
+            height: 45px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            margin-bottom: 20px;
+
+            background: #e0f2fe;
+            color: #0284c7;
+
+            border-radius: 10px;
+
+            font-weight: bold;
+        }
+
+        .analysis-card h3 {
+            margin-bottom: 10px;
+        }
+
+        .analysis-card p {
+            color: #64748b;
             font-size: 14px;
         }
 
-        /* RESPONSIVIDADE */
+        /* =========================
+           ARQUIVOS
+        ========================= */
 
-        @media (max-width: 800px) {
+        .files {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
 
-            .indicators {
+        .file-card {
+            padding: 28px;
+
+            background: #ffffff;
+
+            border-radius: 14px;
+
+            border: 1px solid #e2e8f0;
+
+            text-decoration: none;
+            color: #17202a;
+
+            transition: 0.3s;
+        }
+
+        .file-card:hover {
+            border-color: #38bdf8;
+            transform: translateY(-5px);
+            box-shadow: 0 12px 30px rgba(15, 23, 42, 0.08);
+        }
+
+        .file-type {
+            color: #0284c7;
+            font-size: 12px;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+
+        .file-card h3 {
+            margin: 8px 0;
+        }
+
+        .file-card p {
+            color: #64748b;
+            font-size: 14px;
+        }
+
+        /* =========================
+           DASHBOARD
+        ========================= */
+
+        .dashboard {
+            background: #0f172a;
+
+            padding: 55px;
+
+            border-radius: 20px;
+
+            color: white;
+
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 50px;
+
+            align-items: center;
+        }
+
+        .dashboard h2 {
+            font-size: 38px;
+            margin-bottom: 15px;
+        }
+
+        .dashboard p {
+            color: #cbd5e1;
+            margin-bottom: 25px;
+        }
+
+        .dashboard-list {
+            list-style: none;
+        }
+
+        .dashboard-list li {
+            padding: 12px 0;
+            border-bottom: 1px solid #334155;
+            color: #cbd5e1;
+        }
+
+        .dashboard-list li::before {
+            content: "✓";
+            color: #38bdf8;
+            font-weight: bold;
+            margin-right: 10px;
+        }
+
+        .dashboard-visual {
+            padding: 25px;
+
+            background: #1e293b;
+
+            border-radius: 15px;
+        }
+
+        .mini-row {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin: 18px 0;
+        }
+
+        .mini-label {
+            width: 90px;
+            font-size: 13px;
+            color: #cbd5e1;
+        }
+
+        .mini-bar-container {
+            flex: 1;
+            height: 9px;
+            background: #334155;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .mini-bar {
+            height: 100%;
+            background: #38bdf8;
+            border-radius: 10px;
+        }
+
+        /* =========================
+           CONCLUSÃO
+        ========================= */
+
+        .conclusion {
+            background: white;
+
+            border-radius: 18px;
+
+            padding: 45px;
+
+            border-left: 6px solid #0284c7;
+
+            box-shadow: 0 10px 30px rgba(15, 23, 42, 0.06);
+        }
+
+        .conclusion h2 {
+            margin-bottom: 18px;
+        }
+
+        .conclusion p {
+            color: #475569;
+            margin-bottom: 15px;
+        }
+
+        /* =========================
+           FOOTER
+        ========================= */
+
+        footer {
+            margin-top: 50px;
+
+            background: #020617;
+
+            color: #94a3b8;
+
+            padding: 45px 8%;
+
+            text-align: center;
+        }
+
+        footer strong {
+            color: white;
+        }
+
+        footer p {
+            margin-top: 8px;
+            font-size: 14px;
+        }
+
+        /* =========================
+           RESPONSIVO
+        ========================= */
+
+        @media (max-width: 850px) {
+
+            nav {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            nav ul {
+                gap: 15px;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+
+            .hero {
+                padding: 60px 7%;
+            }
+
+            .hero-content {
                 grid-template-columns: 1fr;
             }
 
-            .technologies {
-                grid-template-columns: repeat(2, 1fr);
+            .hero h1 {
+                font-size: 48px;
             }
 
-            h1 {
+            .questions,
+            .analysis-grid,
+            .files,
+            .kpis {
+                grid-template-columns: 1fr;
+            }
+
+            .dashboard {
+                grid-template-columns: 1fr;
+                padding: 30px;
+            }
+
+            .dashboard h2 {
                 font-size: 30px;
-            }
-
-            .header {
-                padding: 50px 6%;
-            }
-
-            .card {
-                padding: 22px;
             }
         }
 
         @media (max-width: 500px) {
 
-            .technologies {
-                grid-template-columns: 1fr;
+            .hero h1 {
+                font-size: 40px;
             }
 
-            .container {
-                width: 94%;
-            }
-
-            h1 {
-                font-size: 27px;
-            }
-
-            .header p {
+            .hero p {
                 font-size: 16px;
             }
 
-            .button {
-                width: 100%;
-                text-align: center;
+            .container {
+                padding: 65px 20px;
+            }
+
+            .section-title h2 {
+                font-size: 30px;
+            }
+
+            .dashboard {
+                padding: 25px;
             }
         }
     </style>
@@ -249,246 +696,678 @@
 
 <body>
 
-    <!-- CABEÇALHO -->
+    <!-- =========================
+         MENU
+    ========================== -->
 
-    <header class="header">
+    <nav>
 
-        <div class="tag">
-            Projeto G1 — Análise e Visualização de Dados
+        <div class="logo">
+            DATA<span>BR</span>
         </div>
 
-        <h1>Acidentes de Trânsito no Brasil</h1>
+        <ul>
+            <li><a href="#projeto">Projeto</a></li>
+            <li><a href="#indicadores">Indicadores</a></li>
+            <li><a href="#analises">Análises</a></li>
+            <li><a href="#arquivos">Arquivos</a></li>
+            <li><a href="#dashboard">Dashboard</a></li>
+        </ul>
 
-        <p>
-            Análise exploratória de dados sobre acidentes de trânsito
-            ocorridos no Brasil entre 2015 e 2024.
-        </p>
+    </nav>
+
+
+    <!-- =========================
+         HERO
+    ========================== -->
+
+    <header class="hero" id="projeto">
+
+        <div class="hero-content">
+
+            <div>
+
+                <div class="tag">
+                    Projeto G1 · Python
+                </div>
+
+                <h1>
+                    Acidentes de
+                    <span>Trânsito</span>
+                    no Brasil
+                </h1>
+
+                <p>
+                    Uma análise exploratória dos acidentes de trânsito
+                    ocorridos no Brasil entre 2015 e 2024,
+                    utilizando técnicas de tratamento,
+                    análise e visualização de dados.
+                </p>
+
+                <div class="hero-buttons">
+
+                    <a
+                        class="button button-primary"
+                        href="https://projeto-python-app-g1-e5os5hqvtaemvybuq7y3rm.streamlit.app"
+                        target="_blank">
+                        Abrir Dashboard
+                    </a>
+
+                    <a
+                        class="button button-secondary"
+                        href="https://github.com/Yokamaro/Projeto-Python-Streamlit-G1"
+                        target="_blank">
+                        Ver no GitHub
+                    </a>
+
+                </div>
+
+            </div>
+
+
+            <div class="data-panel">
+
+                <div class="data-panel-title">
+                    Evolução dos acidentes · 2015–2024
+                </div>
+
+                <div class="fake-chart">
+
+                    <div class="bar" style="height: 42%;"></div>
+                    <div class="bar" style="height: 51%;"></div>
+                    <div class="bar" style="height: 47%;"></div>
+                    <div class="bar" style="height: 63%;"></div>
+                    <div class="bar" style="height: 59%;"></div>
+                    <div class="bar" style="height: 72%;"></div>
+                    <div class="bar" style="height: 67%;"></div>
+                    <div class="bar" style="height: 81%;"></div>
+                    <div class="bar" style="height: 75%;"></div>
+                    <div class="bar" style="height: 91%;"></div>
+
+                </div>
+
+                <div class="data-panel-footer">
+
+                    <span>2015</span>
+                    <strong>2024</strong>
+
+                </div>
+
+            </div>
+
+        </div>
 
     </header>
 
 
-    <main class="container">
+    <!-- =========================
+         PERGUNTAS
+    ========================== -->
+
+    <section class="container">
+
+        <div class="section-title">
+
+            <small>Objetivo</small>
+
+            <h2>O que queremos descobrir?</h2>
+
+            <p>
+                O projeto busca identificar padrões e características
+                dos acidentes de trânsito a partir dos dados analisados.
+            </p>
+
+        </div>
 
 
-        <!-- PERGUNTAS DE NEGÓCIO -->
+        <div class="questions">
 
-        <section class="card questions">
+            <div class="question">
+                <span class="question-number">01</span>
+                <h3>Quais estados concentram mais acidentes?</h3>
+            </div>
 
-            <h2>Perguntas de negócio</h2>
+            <div class="question">
+                <span class="question-number">02</span>
+                <h3>Quais horários apresentam maior risco?</h3>
+            </div>
 
-            <ul>
-                <li>Quais estados apresentam maior número de acidentes?</li>
-                <li>Quais períodos do dia apresentam maior quantidade de acidentes?</li>
-                <li>Quais tipos de acidentes são mais frequentes?</li>
-                <li>Existe relação entre chuva, visibilidade e ocorrência de acidentes?</li>
-                <li>Quais regiões apresentam maior número de mortes?</li>
-                <li>Como os acidentes evoluíram ao longo dos anos?</li>
-            </ul>
+            <div class="question">
+                <span class="question-number">03</span>
+                <h3>Quais são os tipos de acidentes mais frequentes?</h3>
+            </div>
 
-        </section>
+            <div class="question">
+                <span class="question-number">04</span>
+                <h3>Existe relação entre chuva e acidentes?</h3>
+            </div>
+
+            <div class="question">
+                <span class="question-number">05</span>
+                <h3>Quais regiões apresentam mais mortes?</h3>
+            </div>
+
+            <div class="question">
+                <span class="question-number">06</span>
+                <h3>Como os acidentes evoluíram ao longo dos anos?</h3>
+            </div>
+
+        </div>
+
+    </section>
 
 
-        <!-- INDICADORES -->
+    <!-- =========================
+         INDICADORES
+    ========================== -->
 
-        <section class="card">
+    <section class="container" id="indicadores">
+
+        <div class="section-title">
+
+            <small>Visão geral</small>
 
             <h2>Indicadores analisados</h2>
 
-            <div class="indicators">
+            <p>
+                O dashboard apresenta indicadores que permitem
+                compreender rapidamente o comportamento dos acidentes.
+            </p>
 
-                <div class="indicator">
-                    <strong>Total de acidentes</strong>
-                    <span>Quantidade total de acidentes registrados na base.</span>
+        </div>
+
+
+        <div class="kpis">
+
+            <div class="kpi">
+
+                <span class="kpi-label">
+                    Acidentes
+                </span>
+
+                <strong>Total analisado</strong>
+
+            </div>
+
+
+            <div class="kpi">
+
+                <span class="kpi-label">
+                    Segurança
+                </span>
+
+                <strong>Feridos e mortes</strong>
+
+            </div>
+
+
+            <div class="kpi">
+
+                <span class="kpi-label">
+                    Frequência
+                </span>
+
+                <strong>Tipos de acidentes</strong>
+
+            </div>
+
+
+            <div class="kpi">
+
+                <span class="kpi-label">
+                    Geografia
+                </span>
+
+                <strong>Estados e regiões</strong>
+
+            </div>
+
+
+            <div class="kpi">
+
+                <span class="kpi-label">
+                    Tempo
+                </span>
+
+                <strong>2015 → 2024</strong>
+
+            </div>
+
+
+            <div class="kpi">
+
+                <span class="kpi-label">
+                    Condições
+                </span>
+
+                <strong>Chuva e visibilidade</strong>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =========================
+         TECNOLOGIAS
+    ========================== -->
+
+    <section class="container">
+
+        <div class="section-title">
+
+            <small>Tecnologias</small>
+
+            <h2>Ferramentas utilizadas</h2>
+
+            <p>
+                Tecnologias utilizadas no processo de tratamento,
+                análise, visualização e publicação dos dados.
+            </p>
+
+        </div>
+
+
+        <div class="technologies">
+
+            <div class="tech">Python</div>
+            <div class="tech">Pandas</div>
+            <div class="tech">NumPy</div>
+            <div class="tech">Matplotlib</div>
+            <div class="tech">Seaborn</div>
+            <div class="tech">Streamlit</div>
+            <div class="tech">Jupyter Notebook</div>
+            <div class="tech">GitHub</div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =========================
+         ANÁLISES
+    ========================== -->
+
+    <section class="container" id="analises">
+
+        <div class="section-title">
+
+            <small>Análise exploratória</small>
+
+            <h2>Principais perspectivas</h2>
+
+            <p>
+                Diferentes dimensões foram utilizadas para encontrar
+                padrões relevantes na base de acidentes.
+            </p>
+
+        </div>
+
+
+        <div class="analysis-grid">
+
+            <div class="analysis-card">
+
+                <div class="analysis-icon">
+                    01
                 </div>
 
-                <div class="indicator">
-                    <strong>Total de feridos</strong>
-                    <span>Número total de pessoas feridas nos acidentes.</span>
+                <h3>Evolução temporal</h3>
+
+                <p>
+                    Comparação dos acidentes ao longo dos anos
+                    e análise do comportamento mensal.
+                </p>
+
+            </div>
+
+
+            <div class="analysis-card">
+
+                <div class="analysis-icon">
+                    02
                 </div>
 
-                <div class="indicator">
-                    <strong>Total de mortes</strong>
-                    <span>Número total de mortes registradas.</span>
+                <h3>Análise regional</h3>
+
+                <p>
+                    Comparação entre estados e regiões brasileiras
+                    para identificar áreas com maior ocorrência.
+                </p>
+
+            </div>
+
+
+            <div class="analysis-card">
+
+                <div class="analysis-icon">
+                    03
                 </div>
 
-                <div class="indicator">
-                    <strong>Estado mais crítico</strong>
-                    <span>Estado com maior número de acidentes.</span>
+                <h3>Tipos de acidentes</h3>
+
+                <p>
+                    Identificação dos tipos de acidentes mais
+                    frequentes na base analisada.
+                </p>
+
+            </div>
+
+
+            <div class="analysis-card">
+
+                <div class="analysis-icon">
+                    04
                 </div>
 
-                <div class="indicator">
-                    <strong>Período mais perigoso</strong>
-                    <span>Período do dia com maior ocorrência de acidentes.</span>
+                <h3>Horários críticos</h3>
+
+                <p>
+                    Análise dos períodos do dia com maior
+                    concentração de acidentes.
+                </p>
+
+            </div>
+
+
+            <div class="analysis-card">
+
+                <div class="analysis-icon">
+                    05
                 </div>
 
-                <div class="indicator">
-                    <strong>Tipo mais frequente</strong>
-                    <span>Tipo de acidente com maior ocorrência.</span>
+                <h3>Condições climáticas</h3>
+
+                <p>
+                    Investigação da relação entre chuva,
+                    visibilidade e ocorrência de acidentes.
+                </p>
+
+            </div>
+
+
+            <div class="analysis-card">
+
+                <div class="analysis-icon">
+                    06
+                </div>
+
+                <h3>Gravidade</h3>
+
+                <p>
+                    Avaliação dos níveis de gravidade e
+                    consequências dos acidentes registrados.
+                </p>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =========================
+         DASHBOARD
+    ========================== -->
+
+    <section class="container" id="dashboard">
+
+        <div class="dashboard">
+
+            <div>
+
+                <h2>
+                    Explore os dados
+                </h2>
+
+                <p>
+                    O dashboard desenvolvido em Streamlit permite
+                    filtrar e explorar os dados de maneira interativa.
+                </p>
+
+                <ul class="dashboard-list">
+
+                    <li>Filtro por ano</li>
+                    <li>Filtro por estado e região</li>
+                    <li>Filtro por tipo de acidente</li>
+                    <li>Análise por período do dia</li>
+                    <li>Análise por nível de gravidade</li>
+                    <li>Visualizações interativas</li>
+
+                </ul>
+
+                <br>
+
+                <a
+                    class="button button-primary"
+                    href="https://projeto-python-app-g1-e5os5hqvtaemvybuq7y3rm.streamlit.app"
+                    target="_blank">
+                    Acessar aplicação
+                </a>
+
+            </div>
+
+
+            <div class="dashboard-visual">
+
+                <div class="data-panel-title">
+                    Exemplo de indicadores
+                </div>
+
+                <div class="mini-row">
+
+                    <span class="mini-label">
+                        Acidentes
+                    </span>
+
+                    <div class="mini-bar-container">
+                        <div
+                            class="mini-bar"
+                            style="width: 88%;">
+                        </div>
+                    </div>
+
+                </div>
+
+
+                <div class="mini-row">
+
+                    <span class="mini-label">
+                        Feridos
+                    </span>
+
+                    <div class="mini-bar-container">
+                        <div
+                            class="mini-bar"
+                            style="width: 67%;">
+                        </div>
+                    </div>
+
+                </div>
+
+
+                <div class="mini-row">
+
+                    <span class="mini-label">
+                        Mortes
+                    </span>
+
+                    <div class="mini-bar-container">
+                        <div
+                            class="mini-bar"
+                            style="width: 43%;">
+                        </div>
+                    </div>
+
+                </div>
+
+
+                <div class="mini-row">
+
+                    <span class="mini-label">
+                        Veículos
+                    </span>
+
+                    <div class="mini-bar-container">
+                        <div
+                            class="mini-bar"
+                            style="width: 76%;">
+                        </div>
+                    </div>
+
                 </div>
 
             </div>
 
-        </section>
+        </div>
+
+    </section>
 
 
-        <!-- TECNOLOGIAS -->
+    <!-- =========================
+         ARQUIVOS
+    ========================== -->
 
-        <section class="card">
+    <section class="container" id="arquivos">
 
-            <h2>Tecnologias utilizadas</h2>
+        <div class="section-title">
 
-            <div class="technologies">
-
-                <div class="technology">Python</div>
-                <div class="technology">Pandas</div>
-                <div class="technology">NumPy</div>
-                <div class="technology">Matplotlib</div>
-                <div class="technology">Seaborn</div>
-                <div class="technology">Streamlit</div>
-                <div class="technology">GitHub</div>
-                <div class="technology">GitHub Pages</div>
-
-            </div>
-
-        </section>
-
-
-        <!-- ARQUIVOS -->
-
-        <section class="card">
+            <small>Materiais</small>
 
             <h2>Arquivos do projeto</h2>
 
             <p>
-                Acesse os principais componentes utilizados no desenvolvimento
-                da análise.
+                Acesse diretamente os principais materiais utilizados
+                no desenvolvimento da análise.
             </p>
 
-            <div class="buttons">
-
-                <!-- Link para o repositório -->
-                <a
-                    class="button"
-                    href="https://github.com/Yokamaro/Projeto-Python-Streamlit-G1"
-                    target="_blank">
-                    Ver projeto no GitHub
-                </a>
-
-                <!-- Link para o notebook dentro do GitHub -->
-                <a
-                    class="button dark"
-                    href="https://github.com/Yokamaro/Projeto-Python-Streamlit-G1/tree/main/projetoG1-acidentes-transito/notebooks"
-                    target="_blank">
-                    Ver Notebook
-                </a>
-
-                <!-- Link para a base dentro do GitHub -->
-                <a
-                    class="button dark"
-                    href="https://github.com/Yokamaro/Projeto-Python-Streamlit-G1/tree/main/projetoG1-acidentes-transito/dados"
-                    target="_blank">
-                    Ver Base de Dados
-                </a>
-
-            </div>
-
-        </section>
+        </div>
 
 
-        <!-- DASHBOARD -->
+        <div class="files">
 
-        <section class="card dashboard">
+            <a
+                class="file-card"
+                href="https://github.com/Yokamaro/Projeto-Python-Streamlit-G1"
+                target="_blank">
 
-            <h2>Dashboard interativo</h2>
+                <span class="file-type">
+                    Repositório
+                </span>
 
-            <div class="dashboard-text">
+                <h3>GitHub</h3>
 
                 <p>
-                    O dashboard foi desenvolvido utilizando
-                    <strong>Streamlit</strong> e permite explorar os dados
-                    de acidentes de trânsito por meio de filtros,
-                    indicadores e visualizações.
+                    Código-fonte, documentação e estrutura completa
+                    do projeto.
                 </p>
+
+            </a>
+
+
+            <a
+                class="file-card"
+                href="https://github.com/Yokamaro/Projeto-Python-Streamlit-G1/blob/main/projetoG1-acidentes-transito/notebooks/analise_acidentes.ipynb"
+                target="_blank">
+
+                <span class="file-type">
+                    Notebook
+                </span>
+
+                <h3>Análise em Python</h3>
 
                 <p>
-                    É possível analisar diferentes anos, meses, regiões,
-                    estados, tipos de acidentes, períodos do dia e níveis
-                    de gravidade.
+                    Notebook contendo preparação, exploração,
+                    visualizações e interpretação dos dados.
                 </p>
 
-            </div>
-
-            <div class="buttons">
-
-                <a
-                    class="button"
-                    href="https://projeto-python-app-g1-e5os5hqvtaemvybuq7y3rm.streamlit.app/"
-                    target="_blank">
-                    Acessar Dashboard
-                </a>
-
-            </div>
-
-        </section>
+            </a>
 
 
-        <!-- ANÁLISES REALIZADAS -->
+            <a
+                class="file-card"
+                href="https://github.com/Yokamaro/Projeto-Python-Streamlit-G1/blob/main/projetoG1-acidentes-transito/dados/simulacao_acidentes_transito_brasil.csv"
+                target="_blank">
 
-        <section class="card">
+                <span class="file-type">
+                    Dataset
+                </span>
 
-            <h2>Análises realizadas</h2>
+                <h3>Base de dados</h3>
 
-            <ul>
-                <li>Evolução dos acidentes ao longo dos anos.</li>
-                <li>Comparação entre os estados brasileiros.</li>
-                <li>Comparação entre as regiões.</li>
-                <li>Análise dos tipos de acidentes.</li>
-                <li>Análise dos períodos do dia.</li>
-                <li>Relação entre acidentes, chuva e visibilidade.</li>
-                <li>Análise dos níveis de gravidade.</li>
-                <li>Ranking dos municípios com maior número de acidentes.</li>
-            </ul>
+                <p>
+                    Base utilizada para realizar as análises
+                    de acidentes de trânsito.
+                </p>
 
-        </section>
+            </a>
+
+        </div>
+
+    </section>
 
 
-        <!-- CONCLUSÃO -->
+    <!-- =========================
+         CONCLUSÃO
+    ========================== -->
 
-        <section class="card conclusion">
+    <section class="container">
 
-            <h2>Conclusão</h2>
+        <div class="conclusion">
+
+            <h2>
+                Conclusão do projeto
+            </h2>
 
             <p>
-                A análise dos dados permite identificar padrões relacionados
-                à ocorrência e à gravidade dos acidentes de trânsito no Brasil.
-                A utilização de indicadores, gráficos e filtros interativos
-                facilita a interpretação dos dados e permite observar diferenças
-                entre períodos, regiões, estados e tipos de acidentes.
+                A análise dos acidentes de trânsito permite observar
+                diferentes padrões relacionados ao tempo, localização,
+                tipo de acidente, condições climáticas e gravidade.
             </p>
 
             <p>
-                O projeto demonstra como ferramentas de análise e visualização
-                de dados podem auxiliar na compreensão de informações e na
-                identificação de padrões relevantes para a tomada de decisões.
+                A utilização de Python e suas bibliotecas de análise
+                possibilitou organizar a base, gerar indicadores e
+                transformar os dados em informações visualmente
+                interpretáveis.
             </p>
 
-        </section>
+            <p>
+                O dashboard desenvolvido complementa essa análise ao
+                permitir que os dados sejam explorados através de
+                diferentes filtros e perspectivas.
+            </p>
+
+        </div>
+
+    </section>
 
 
-    </main>
-
-
-    <!-- RODAPÉ -->
+    <!-- =========================
+         FOOTER
+    ========================== -->
 
     <footer>
 
-        <strong>Projeto G1 — Análise e Visualização de Dados com Python</strong>
-        <br>
-        Aluno: Yago Amaro Zamborlini
-        <br>
-        Professor: Alexandre Louzada
+        <strong>
+            Projeto G1 — Análise e Visualização de Dados com Python
+        </strong>
+
+        <p>
+            Aluno: Yago Amaro Zamborlini
+        </p>
+
+        <p>
+            Professor: Alexandre Louzada
+        </p>
+
+        <p>
+            Sistemas de Informação
+        </p>
 
     </footer>
 
 </body>
+
 </html>
