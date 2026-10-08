@@ -1,6 +1,8 @@
 # 🚗 Acidentes de Trânsito no Brasil
 
 Projeto G1 — Linguagem de Programação: Análise e Visualização de Dados com Python.
+Aluno: Yago Amaro Zamborlini
+Professor: Alexandre Louzada
 
 ## Tema
 
