@@ -1,221 +1,494 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Acidentes de Trânsito no Brasil</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<style>
-* {
-    box-sizing: border-box;
-}
+    <title>Acidentes de Trânsito no Brasil</title>
 
-body {
-    margin: 0;
-    font-family: Arial, Helvetica, sans-serif;
-    background: #f5f7fb;
-    color: #1f2937;
-    line-height: 1.6;
-}
+    <style>
+        * {
+            box-sizing: border-box;
+        }
 
-header {
-    background: linear-gradient(135deg, #111827, #374151);
-    color: white;
-    padding: 90px 8%;
-}
+        body {
+            margin: 0;
+            font-family: Arial, Helvetica, sans-serif;
+            background: #f4f6f9;
+            color: #1f2937;
+            line-height: 1.5;
+        }
 
-header h1 {
-    font-size: 48px;
-    margin: 0 0 15px;
-}
+        .container {
+            width: 90%;
+            max-width: 1100px;
+            margin: 35px auto;
+        }
 
-header p {
-    font-size: 20px;
-    max-width: 800px;
-}
+        .card {
+            background: white;
+            border-radius: 12px;
+            padding: 28px;
+            margin-bottom: 22px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+        }
 
-.container {
-    width: 84%;
-    max-width: 1100px;
-    margin: auto;
-}
+        h1 {
+            color: white;
+            font-size: 38px;
+            margin-bottom: 10px;
+        }
 
-section {
-    background: white;
-    margin: 30px 0;
-    padding: 35px;
-    border-radius: 16px;
-    box-shadow: 0 4px 18px rgba(0,0,0,.06);
-}
+        h2 {
+            color: #2457d6;
+            font-size: 24px;
+            margin-top: 0;
+            margin-bottom: 18px;
+        }
 
-h2 {
-    color: #111827;
-}
+        h3 {
+            margin-top: 0;
+            color: #1f2937;
+        }
 
-.cards {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
-    gap: 18px;
-}
+        p {
+            margin-bottom: 12px;
+        }
 
-.card {
-    background: #f3f4f6;
-    padding: 22px;
-    border-radius: 12px;
-}
+        ul {
+            padding-left: 22px;
+        }
 
-.card h3 {
-    margin-top: 0;
-}
+        li {
+            margin-bottom: 5px;
+        }
 
-.buttons {
-    display: flex;
-    gap: 15px;
-    flex-wrap: wrap;
-}
+        /* CABEÇALHO */
 
-.button {
-    display: inline-block;
-    padding: 12px 20px;
-    background: #111827;
-    color: white;
-    text-decoration: none;
-    border-radius: 8px;
-}
+        .header {
+            background: linear-gradient(135deg, #123c91, #2457d6);
+            color: white;
+            padding: 65px 8%;
+            text-align: center;
+        }
 
-footer {
-    text-align: center;
-    padding: 30px;
-    color: #6b7280;
-}
-</style>
+        .header p {
+            font-size: 18px;
+            max-width: 750px;
+            margin: auto;
+            opacity: 0.95;
+        }
+
+        .tag {
+            display: inline-block;
+            background: rgba(255,255,255,0.15);
+            border: 1px solid rgba(255,255,255,0.3);
+            padding: 7px 15px;
+            border-radius: 20px;
+            margin-bottom: 15px;
+            font-size: 14px;
+        }
+
+        /* PERGUNTAS */
+
+        .questions li::marker {
+            color: #2457d6;
+        }
+
+        /* INDICADORES */
+
+        .indicators {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+        }
+
+        .indicator {
+            background: #f7f9fc;
+            border-left: 4px solid #2457d6;
+            padding: 18px;
+            border-radius: 7px;
+        }
+
+        .indicator strong {
+            display: block;
+            font-size: 16px;
+            margin-bottom: 5px;
+        }
+
+        .indicator span {
+            font-size: 14px;
+        }
+
+        /* TECNOLOGIAS */
+
+        .technologies {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 14px;
+        }
+
+        .technology {
+            background: #f7f9fc;
+            border-left: 4px solid #2457d6;
+            padding: 13px 15px;
+            border-radius: 6px;
+            font-weight: 500;
+        }
+
+        /* ARQUIVOS */
+
+        .buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 18px;
+        }
+
+        .button {
+            display: inline-block;
+            text-decoration: none;
+            background: #2457d6;
+            color: white;
+            padding: 11px 18px;
+            border-radius: 7px;
+            font-weight: bold;
+            font-size: 14px;
+            transition: 0.2s;
+        }
+
+        .button:hover {
+            background: #123c91;
+            transform: translateY(-1px);
+        }
+
+        .button.dark {
+            background: #374151;
+        }
+
+        .button.dark:hover {
+            background: #111827;
+        }
+
+        /* DASHBOARD */
+
+        .dashboard {
+            background: linear-gradient(135deg, #eef3ff, #f8faff);
+            border-left: 5px solid #2457d6;
+        }
+
+        .dashboard-text {
+            max-width: 850px;
+        }
+
+        /* CONCLUSÃO */
+
+        .conclusion {
+            background: #f8fafc;
+        }
+
+        /* RODAPÉ */
+
+        footer {
+            text-align: center;
+            padding: 30px 15px;
+            color: #6b7280;
+            font-size: 14px;
+        }
+
+        /* RESPONSIVIDADE */
+
+        @media (max-width: 800px) {
+
+            .indicators {
+                grid-template-columns: 1fr;
+            }
+
+            .technologies {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            h1 {
+                font-size: 30px;
+            }
+
+            .header {
+                padding: 50px 6%;
+            }
+
+            .card {
+                padding: 22px;
+            }
+        }
+
+        @media (max-width: 500px) {
+
+            .technologies {
+                grid-template-columns: 1fr;
+            }
+
+            .container {
+                width: 94%;
+            }
+
+            h1 {
+                font-size: 27px;
+            }
+
+            .header p {
+                font-size: 16px;
+            }
+
+            .button {
+                width: 100%;
+                text-align: center;
+            }
+        }
+    </style>
 </head>
 
 <body>
 
-<header>
-<div class="container">
-<h1>🚗 Acidentes de Trânsito no Brasil</h1>
+    <!-- CABEÇALHO -->
 
-<p>
-Projeto de análise e visualização de dados utilizando Python,
-Pandas, Matplotlib, Seaborn e Streamlit.
-</p>
+    <header class="header">
 
-<p><strong>Período analisado: 2015–2024</strong></p>
-</div>
-</header>
+        <div class="tag">
+            Projeto G1 — Análise e Visualização de Dados
+        </div>
 
-<main class="container">
+        <h1>Acidentes de Trânsito no Brasil</h1>
 
-<section>
-<h2>Sobre o projeto</h2>
+        <p>
+            Análise exploratória de dados sobre acidentes de trânsito
+            ocorridos no Brasil entre 2015 e 2024.
+        </p>
 
-<p>
-Este projeto analisa acidentes de trânsito no Brasil buscando identificar
-regiões críticas, horários de maior risco, tipos de acidentes, condições
-de visibilidade, gravidade e impacto sobre vítimas.
-</p>
-</section>
+    </header>
 
-<section>
-<h2>Objetivos</h2>
 
-<div class="cards">
+    <main class="container">
 
-<div class="card">
-<h3>📍 Regiões</h3>
-<p>Identificar estados e regiões com maior concentração de acidentes.</p>
-</div>
 
-<div class="card">
-<h3>⏰ Horários</h3>
-<p>Encontrar períodos do dia com maior número de ocorrências.</p>
-</div>
+        <!-- PERGUNTAS DE NEGÓCIO -->
 
-<div class="card">
-<h3>🚘 Tipos</h3>
-<p>Analisar os tipos de acidentes mais frequentes.</p>
-</div>
+        <section class="card questions">
 
-<div class="card">
-<h3>⚠️ Gravidade</h3>
-<p>Avaliar acidentes, feridos e mortes conforme a gravidade.</p>
-</div>
+            <h2>Perguntas de negócio</h2>
 
-</div>
-</section>
+            <ul>
+                <li>Quais estados apresentam maior número de acidentes?</li>
+                <li>Quais períodos do dia apresentam maior quantidade de acidentes?</li>
+                <li>Quais tipos de acidentes são mais frequentes?</li>
+                <li>Existe relação entre chuva, visibilidade e ocorrência de acidentes?</li>
+                <li>Quais regiões apresentam maior número de mortes?</li>
+                <li>Como os acidentes evoluíram ao longo dos anos?</li>
+            </ul>
 
-<section>
-<h2>Perguntas orientadoras</h2>
+        </section>
 
-<ul>
-<li>Quais estados apresentam mais acidentes?</li>
-<li>Quais horários concentram mais ocorrências?</li>
-<li>Existem períodos do ano mais críticos?</li>
-<li>Quais tipos de acidente são mais frequentes?</li>
-<li>Há relação entre condições climáticas e acidentes?</li>
-<li>Quais regiões apresentam maior número de mortes?</li>
-<li>O número de acidentes aumentou ou diminuiu ao longo do tempo?</li>
-</ul>
-</section>
 
-<section>
-<h2>Tecnologias</h2>
+        <!-- INDICADORES -->
 
-<div class="cards">
+        <section class="card">
 
-<div class="card"><h3>Python</h3><p>Linguagem utilizada no projeto.</p></div>
-<div class="card"><h3>Pandas</h3><p>Tratamento e análise dos dados.</p></div>
-<div class="card"><h3>Matplotlib</h3><p>Visualização dos dados.</p></div>
-<div class="card"><h3>Seaborn</h3><p>Visualizações estatísticas.</p></div>
-<div class="card"><h3>Streamlit</h3><p>Dashboard interativo.</p></div>
-<div class="card"><h3>GitHub</h3><p>Versionamento e publicação.</p></div>
+            <h2>Indicadores analisados</h2>
 
-</div>
-</section>
+            <div class="indicators">
 
-<section>
-<h2>Dashboard</h2>
+                <div class="indicator">
+                    <strong>Total de acidentes</strong>
+                    <span>Quantidade total de acidentes registrados na base.</span>
+                </div>
 
-<p>
-O dashboard apresenta filtros, KPIs, gráficos temporais,
-comparações regionais, análise de tipos de acidente,
-clima, gravidade, correlação e tabelas.
-</p>
+                <div class="indicator">
+                    <strong>Total de feridos</strong>
+                    <span>Número total de pessoas feridas nos acidentes.</span>
+                </div>
 
-<div class="buttons">
-<a class="button" href="#" target="_blank">Abrir Dashboard</a>
-<a class="button" href="#" target="_blank">GitHub</a>
-</div>
+                <div class="indicator">
+                    <strong>Total de mortes</strong>
+                    <span>Número total de mortes registradas.</span>
+                </div>
 
-<p>
-<small>
-Após publicar o projeto, substitua os links acima pelos links
-do GitHub e do Streamlit.
-</small>
-</p>
+                <div class="indicator">
+                    <strong>Estado mais crítico</strong>
+                    <span>Estado com maior número de acidentes.</span>
+                </div>
 
-</section>
+                <div class="indicator">
+                    <strong>Período mais perigoso</strong>
+                    <span>Período do dia com maior ocorrência de acidentes.</span>
+                </div>
 
-<section>
-<h2>Conclusão</h2>
+                <div class="indicator">
+                    <strong>Tipo mais frequente</strong>
+                    <span>Tipo de acidente com maior ocorrência.</span>
+                </div>
 
-<p>
-A análise dos dados permite compreender padrões temporais,
-geográficos e relacionados às características dos acidentes.
-O dashboard facilita a exploração dos dados e a comunicação
-dos principais resultados.
-</p>
-</section>
+            </div>
 
-</main>
+        </section>
 
-<footer>
-Projeto G1 — Análise e Visualização de Dados com Python<br>
-Aluno: Yago Amaro Zamborlini<br>
-Professor: Alexandre Louzada
-</footer>
+
+        <!-- TECNOLOGIAS -->
+
+        <section class="card">
+
+            <h2>Tecnologias utilizadas</h2>
+
+            <div class="technologies">
+
+                <div class="technology">Python</div>
+                <div class="technology">Pandas</div>
+                <div class="technology">NumPy</div>
+                <div class="technology">Matplotlib</div>
+                <div class="technology">Seaborn</div>
+                <div class="technology">Streamlit</div>
+                <div class="technology">GitHub</div>
+                <div class="technology">GitHub Pages</div>
+
+            </div>
+
+        </section>
+
+
+        <!-- ARQUIVOS -->
+
+        <section class="card">
+
+            <h2>Arquivos do projeto</h2>
+
+            <p>
+                Acesse os principais componentes utilizados no desenvolvimento
+                da análise.
+            </p>
+
+            <div class="buttons">
+
+                <!-- Link para o repositório -->
+                <a
+                    class="button"
+                    href="https://github.com/Yokamaro/Projeto-Python-Streamlit-G1"
+                    target="_blank">
+                    Ver projeto no GitHub
+                </a>
+
+                <!-- Link para o notebook dentro do GitHub -->
+                <a
+                    class="button dark"
+                    href="https://github.com/Yokamaro/Projeto-Python-Streamlit-G1/tree/main/projetoG1-acidentes-transito/notebooks"
+                    target="_blank">
+                    Ver Notebook
+                </a>
+
+                <!-- Link para a base dentro do GitHub -->
+                <a
+                    class="button dark"
+                    href="https://github.com/Yokamaro/Projeto-Python-Streamlit-G1/tree/main/projetoG1-acidentes-transito/dados"
+                    target="_blank">
+                    Ver Base de Dados
+                </a>
+
+            </div>
+
+        </section>
+
+
+        <!-- DASHBOARD -->
+
+        <section class="card dashboard">
+
+            <h2>Dashboard interativo</h2>
+
+            <div class="dashboard-text">
+
+                <p>
+                    O dashboard foi desenvolvido utilizando
+                    <strong>Streamlit</strong> e permite explorar os dados
+                    de acidentes de trânsito por meio de filtros,
+                    indicadores e visualizações.
+                </p>
+
+                <p>
+                    É possível analisar diferentes anos, meses, regiões,
+                    estados, tipos de acidentes, períodos do dia e níveis
+                    de gravidade.
+                </p>
+
+            </div>
+
+            <div class="buttons">
+
+                <a
+                    class="button"
+                    href="https://projeto-python-app-g1-e5os5hqvtaemvybuq7y3rm.streamlit.app/"
+                    target="_blank">
+                    Acessar Dashboard
+                </a>
+
+            </div>
+
+        </section>
+
+
+        <!-- ANÁLISES REALIZADAS -->
+
+        <section class="card">
+
+            <h2>Análises realizadas</h2>
+
+            <ul>
+                <li>Evolução dos acidentes ao longo dos anos.</li>
+                <li>Comparação entre os estados brasileiros.</li>
+                <li>Comparação entre as regiões.</li>
+                <li>Análise dos tipos de acidentes.</li>
+                <li>Análise dos períodos do dia.</li>
+                <li>Relação entre acidentes, chuva e visibilidade.</li>
+                <li>Análise dos níveis de gravidade.</li>
+                <li>Ranking dos municípios com maior número de acidentes.</li>
+            </ul>
+
+        </section>
+
+
+        <!-- CONCLUSÃO -->
+
+        <section class="card conclusion">
+
+            <h2>Conclusão</h2>
+
+            <p>
+                A análise dos dados permite identificar padrões relacionados
+                à ocorrência e à gravidade dos acidentes de trânsito no Brasil.
+                A utilização de indicadores, gráficos e filtros interativos
+                facilita a interpretação dos dados e permite observar diferenças
+                entre períodos, regiões, estados e tipos de acidentes.
+            </p>
+
+            <p>
+                O projeto demonstra como ferramentas de análise e visualização
+                de dados podem auxiliar na compreensão de informações e na
+                identificação de padrões relevantes para a tomada de decisões.
+            </p>
+
+        </section>
+
+
+    </main>
+
+
+    <!-- RODAPÉ -->
+
+    <footer>
+
+        <strong>Projeto G1 — Análise e Visualização de Dados com Python</strong>
+        <br>
+        Aluno: Yago Amaro Zamborlini
+        <br>
+        Professor: Alexandre Louzada
+
+    </footer>
 
 </body>
 </html>
